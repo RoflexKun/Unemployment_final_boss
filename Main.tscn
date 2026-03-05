@@ -1,10 +1,37 @@
 [gd_scene format=3 uid="uid://bxx3u1fqofeki"]
 
-[ext_resource type="Texture2D" uid="uid://db7i41s3oqn65" path="res://floor.png" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://ce3ivgtv82njt" path="res://Scripts/DoorOpening.gd" id="1_fos0i"]
+[ext_resource type="Texture2D" uid="uid://db7i41s3oqn65" path="res://Drawing_assets/floor.png" id="1_glv2v"]
+[ext_resource type="Texture2D" uid="uid://b3nbjtfip5ih" path="res://Drawing_assets/wall.png" id="2_uu6xs"]
+[ext_resource type="Texture2D" uid="uid://wqku00b2uy01" path="res://Drawing_assets/Door_assets/door_open.png" id="4_3dxm6"]
+[ext_resource type="Texture2D" uid="uid://cme8lpg7ga1jc" path="res://Drawing_assets/Door_assets/door_closed.png" id="5_lgr22"]
 
 [node name="Node2D" type="Node2D" unique_id=223592358]
+script = ExtResource("1_fos0i")
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=779097629]
 position = Vector2(576, 602.5)
 scale = Vector2(1.796875, 0.25833338)
 texture = ExtResource("1_glv2v")
+
+[node name="Wall" type="Sprite2D" parent="." unique_id=309725285]
+position = Vector2(575, 278.5)
+scale = Vector2(1.7968749, 1.5416667)
+texture = ExtResource("2_uu6xs")
+
+[node name="DoorOpen" type="Sprite2D" parent="." unique_id=504552210]
+visible = false
+position = Vector2(229.99998, 315)
+scale = Vector2(1.06875, 1.338889)
+texture = ExtResource("4_3dxm6")
+
+[node name="DoorClosed" type="Sprite2D" parent="." unique_id=1204400788]
+position = Vector2(230, 315)
+scale = Vector2(1.069, 1.339)
+texture = ExtResource("5_lgr22")
+
+[node name="Timer" type="Timer" parent="." unique_id=1559460175]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
