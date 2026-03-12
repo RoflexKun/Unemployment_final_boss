@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://c8efk1fsktbv0"]
+
+[ext_resource type="Script" uid="uid://dgtc6hinqyd12" path="res://Scripts/Move.gd" id="1_yhl7x"]
+[ext_resource type="Script" uid="uid://ds5wu3jdcjejx" path="res://Scripts/character_stats.gd" id="2_f28lj"]
+
+[sub_resource type="Resource" id="Resource_yhl7x"]
+script = ExtResource("1_yhl7x")
+move_name = "Punch"
+description = "Punch"
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[resource]
+script = ExtResource("2_f28lj")
+character_name = "Player"
+moveset = Array[ExtResource("1_yhl7x")]([SubResource("Resource_yhl7x")])
+metadata/_custom_type_script = "uid://ds5wu3jdcjejx"
