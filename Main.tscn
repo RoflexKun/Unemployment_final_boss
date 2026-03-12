@@ -7,6 +7,9 @@
 [ext_resource type="Resource" uid="uid://c8efk1fsktbv0" path="res://Resources/player_stats.tres" id="3_lgr22"]
 [ext_resource type="Texture2D" uid="uid://wqku00b2uy01" path="res://Drawing_assets/Door_assets/door_open.png" id="4_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://cme8lpg7ga1jc" path="res://Drawing_assets/Door_assets/door_closed.png" id="5_lgr22"]
+[ext_resource type="Texture2D" uid="uid://cjmegdgdlx7bo" path="res://Drawing_assets/health_bar/health_bar_border.png" id="8_03owx"]
+[ext_resource type="Texture2D" uid="uid://bxwsvqwydppmr" path="res://Drawing_assets/health_bar/health_bar.png" id="9_wkp8b"]
+[ext_resource type="Script" uid="uid://dbdhs8om2oyqa" path="res://Scripts/health_bar_management.gd" id="10_wkp8b"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_3dxm6"]
 
@@ -58,6 +61,18 @@ offset_top = 241.0
 offset_right = 932.0
 offset_bottom = 286.0
 text = "Punch"
+
+[node name="HealthBarBorder" type="Sprite2D" parent="." unique_id=1748459053]
+position = Vector2(603.5, 634)
+scale = Vector2(1.5109375, 0.661111)
+texture = ExtResource("8_03owx")
+
+[node name="HealthBar" type="Sprite2D" parent="." unique_id=507599145]
+position = Vector2(58, 539)
+scale = Vector2(1.8835939, 0.63888884)
+texture = ExtResource("9_wkp8b")
+centered = false
+script = ExtResource("10_wkp8b")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Move1Button" to="." method="_on_move_1_button_pressed"]

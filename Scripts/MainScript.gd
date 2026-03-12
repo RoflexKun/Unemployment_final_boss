@@ -6,6 +6,7 @@ extends Node2D
 
 # Grab references to the buttons we just made
 @onready var move_1_button = $Move1Button
+@onready var health_bar = $HealthBar
 
 @export var mom_saved_stats: CharacterStats
 @export var player_saved_stats: CharacterStats
@@ -69,3 +70,6 @@ func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_ind
 	print(defender.character_name + " took " + str(total_damage) + " damage!")
 	print(defender.character_name + " has " + str(defender.current_health) + " health left.")
 	print("-------------------")
+	
+	if defender.character_name == active_player_stats.character_name:
+		health_bar.update_health(defender.current_health, defender.max_health)
