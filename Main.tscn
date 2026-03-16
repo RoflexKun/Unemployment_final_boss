@@ -68,10 +68,12 @@ scale = Vector2(1.5109375, 0.661111)
 texture = ExtResource("8_03owx")
 
 [node name="HealthBar" type="Sprite2D" parent="." unique_id=507599145]
-position = Vector2(58, 539)
-scale = Vector2(1.8835939, 0.63888884)
+position = Vector2(209, 590)
+scale = Vector2(1.8752835, 0.5882346)
 texture = ExtResource("9_wkp8b")
 centered = false
+region_enabled = true
+region_rect = Rect2(79.43509, 78.17904, 441.46457, 51.101997)
 script = ExtResource("10_wkp8b")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
