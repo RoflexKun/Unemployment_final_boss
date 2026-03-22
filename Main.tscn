@@ -8,12 +8,22 @@
 [ext_resource type="Texture2D" uid="uid://wqku00b2uy01" path="res://Drawing_assets/Door_assets/door_open.png" id="4_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://cme8lpg7ga1jc" path="res://Drawing_assets/Door_assets/door_closed.png" id="5_lgr22"]
 [ext_resource type="Texture2D" uid="uid://cjmegdgdlx7bo" path="res://Drawing_assets/health_bar/health_bar_border.png" id="8_03owx"]
+[ext_resource type="Shader" uid="uid://b2yaqs3eknt6y" path="res://Drawing_assets/Final_Boss_assets/final_boss_outline.gdshader" id="8_5vvyt"]
+[ext_resource type="Texture2D" uid="uid://bp67vw1jx2i1g" path="res://Drawing_assets/Final_Boss_assets/final_boss_v2.png" id="9_c6i3y"]
 [ext_resource type="Texture2D" uid="uid://bxwsvqwydppmr" path="res://Drawing_assets/health_bar/health_bar.png" id="9_wkp8b"]
+[ext_resource type="Script" uid="uid://lto401ir4nnm" path="res://Scripts/select_final_boss.gd" id="10_c6i3y"]
 [ext_resource type="Script" uid="uid://dbdhs8om2oyqa" path="res://Scripts/health_bar_management.gd" id="10_wkp8b"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_3dxm6"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_fos0i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c2ibq"]
+shader = ExtResource("8_5vvyt")
+shader_parameter/outline_color = Color(0.7108482, 0.7108479, 7.70092e-07, 1)
+shader_parameter/outline_width = 1.0000000475
+shader_parameter/is_highlighted = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vvyt"]
+size = Vector2(109.71435, 176.7562)
 
 [node name="Node2D" type="Node2D" unique_id=223592358]
 script = ExtResource("1_fos0i")
@@ -32,13 +42,13 @@ texture = ExtResource("2_uu6xs")
 
 [node name="DoorOpen" type="Sprite2D" parent="." unique_id=504552210]
 visible = false
-position = Vector2(229.99998, 315)
-scale = Vector2(1.06875, 1.338889)
+position = Vector2(235, 244)
+scale = Vector2(1.4, 1.75)
 texture = ExtResource("4_3dxm6")
 
 [node name="DoorClosed" type="Sprite2D" parent="." unique_id=1204400788]
-position = Vector2(230, 315)
-scale = Vector2(1.069, 1.339)
+position = Vector2(235, 244)
+scale = Vector2(1.4, 1.75)
 texture = ExtResource("5_lgr22")
 
 [node name="Timer" type="Timer" parent="." unique_id=1559460175]
@@ -50,10 +60,19 @@ position = Vector2(361, 451)
 scale = Vector2(112.07031, 202.00003)
 mesh = SubResource("SphereMesh_3dxm6")
 
-[node name="Player" type="MeshInstance2D" parent="." unique_id=284943508]
-position = Vector2(938, 451)
-scale = Vector2(128, 192)
-mesh = SubResource("BoxMesh_fos0i")
+[node name="Player" type="Sprite2D" parent="." unique_id=305229066]
+material = SubResource("ShaderMaterial_c2ibq")
+position = Vector2(804, 310.00003)
+scale = Vector2(1.8867189, 2.0423613)
+texture = ExtResource("9_c6i3y")
+script = ExtResource("10_c6i3y")
+
+[node name="Area2D" type="Area2D" parent="Player" unique_id=664822036]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D" unique_id=191247966]
+position = Vector2(-13.515472, 45.290726)
+scale = Vector2(0.9999997, 1)
+shape = SubResource("RectangleShape2D_5vvyt")
 
 [node name="Move1Button" type="Button" parent="." unique_id=1072460976]
 offset_left = 875.0
@@ -77,4 +96,5 @@ region_rect = Rect2(79.43509, 78.17904, 441.46457, 51.101997)
 script = ExtResource("10_wkp8b")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="input_event" from="Player/Area2D" to="Player" method="_on_area_2d_input_event"]
 [connection signal="pressed" from="Move1Button" to="." method="_on_move_1_button_pressed"]
