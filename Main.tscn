@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://bxwsvqwydppmr" path="res://Drawing_assets/health_bar/health_bar.png" id="9_wkp8b"]
 [ext_resource type="Script" uid="uid://lto401ir4nnm" path="res://Scripts/select_final_boss.gd" id="10_c6i3y"]
 [ext_resource type="Script" uid="uid://dbdhs8om2oyqa" path="res://Scripts/health_bar_management.gd" id="10_wkp8b"]
+[ext_resource type="Texture2D" uid="uid://crau318c4ooah" path="res://Drawing_assets/buttons/abilities_button.png" id="11_j4qnp"]
+[ext_resource type="Texture2D" uid="uid://boit4rf30ksft" path="res://Drawing_assets/buttons/items_button.png" id="12_fpfj3"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_3dxm6"]
 
@@ -74,19 +76,32 @@ position = Vector2(-13.515472, 45.290726)
 scale = Vector2(0.9999997, 1)
 shape = SubResource("RectangleShape2D_5vvyt")
 
-[node name="Move1Button" type="Button" parent="." unique_id=1072460976]
-offset_left = 875.0
-offset_top = 241.0
-offset_right = 932.0
-offset_bottom = 286.0
-text = "Punch"
+[node name="Move1Button" type="TextureButton" parent="." unique_id=988640885]
+offset_left = 890.0
+offset_top = 229.0
+offset_right = 938.0
+offset_bottom = 277.0
+texture_normal = ExtResource("11_j4qnp")
+ignore_texture_size = true
+stretch_mode = 0
 
-[node name="HealthBarBorder" type="Sprite2D" parent="." unique_id=1748459053]
+[node name="InventoryButton" type="TextureButton" parent="." unique_id=1741711773]
+offset_left = 890.0
+offset_top = 284.0
+offset_right = 938.0
+offset_bottom = 332.0
+texture_normal = ExtResource("12_fpfj3")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BossHealthUI" type="Node2D" parent="." unique_id=1043209383]
+
+[node name="HealthBarBorder" type="Sprite2D" parent="BossHealthUI" unique_id=1748459053]
 position = Vector2(603.5, 634)
 scale = Vector2(1.5109375, 0.661111)
 texture = ExtResource("8_03owx")
 
-[node name="HealthBar" type="Sprite2D" parent="." unique_id=507599145]
+[node name="HealthBar" type="Sprite2D" parent="BossHealthUI" unique_id=507599145]
 position = Vector2(209, 590)
 scale = Vector2(1.8752835, 0.5882346)
 texture = ExtResource("9_wkp8b")
@@ -95,6 +110,42 @@ region_enabled = true
 region_rect = Rect2(79.43509, 78.17904, 441.46457, 51.101997)
 script = ExtResource("10_wkp8b")
 
+[node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=1309531286]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOverScreen" unique_id=2101210721]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 0, 0.5882353)
+
+[node name="Title" type="Label" parent="GameOverScreen" unique_id=971998983]
+offset_left = 166.00005
+offset_top = 154.00002
+offset_right = 332.00006
+offset_bottom = 177.00002
+scale = Vector2(5, 5)
+text = "Unemployed life over"
+
+[node name="DeathName" type="Label" parent="GameOverScreen" unique_id=1751860923]
+offset_left = 544.00006
+offset_top = 260.0
+offset_right = 584.00006
+offset_bottom = 283.0
+scale = Vector2(2.5, 2.5)
+text = "text"
+
+[node name="RetryButton" type="Button" parent="GameOverScreen" unique_id=982839487]
+offset_left = 486.0
+offset_top = 371.0
+offset_right = 686.0
+offset_bottom = 421.0
+text = "Retry"
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="input_event" from="Player/Area2D" to="Player" method="_on_area_2d_input_event"]
 [connection signal="pressed" from="Move1Button" to="." method="_on_move_1_button_pressed"]
+[connection signal="pressed" from="InventoryButton" to="." method="_on_move_1_button_pressed"]
+[connection signal="pressed" from="GameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]

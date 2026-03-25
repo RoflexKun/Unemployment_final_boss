@@ -6,7 +6,11 @@ extends Node2D
 
 # Grab references to the buttons we just made
 @onready var move_1_button = $Move1Button
-@onready var health_bar = $HealthBar
+@onready var boss_health_ui = $BossHealthUI
+@onready var health_bar = $BossHealthUI/HealthBar
+
+@onready var game_over_screen = $GameOverScreen
+@onready var random_message_label = $GameOverScreen/DeathName
 
 @export var mom_saved_stats: CharacterStats
 @export var player_saved_stats: CharacterStats
@@ -17,10 +21,21 @@ var active_player_stats: CharacterStats
 enum Turn { PLAYER, MOM }
 var current_turn = Turn.PLAYER
 
+var ironic_messages_list = [
+	'Maybe you should search for a job',
+	'How can you lose in a game you are the boss',
+	'Maybe try roblox?',
+	'For a gamer, that was pathetic',
+	'Damn...',
+	'Don\'t retry, just quit!'
+]
+
 func _ready():
 	mom.hide()
 	door_closed.show()
 	door_open.hide()
+	boss_health_ui.hide()
+	game_over_screen.hide()
 	
 	move_1_button.hide()
 	
@@ -32,8 +47,9 @@ func _on_timer_timeout():
 	door_closed.hide()
 	door_open.show()
 	mom.show()
+	boss_health_ui.show()
 	
-	move_1_button.show()
+	# move_1_button.show()
 
 # 2. Player clicks Button 1
 func _on_move_1_button_pressed():
@@ -60,6 +76,11 @@ func mom_take_turn():
 	current_turn = Turn.PLAYER
 	
 	move_1_button.disabled = false
+	
+func trigger_game_over():
+	random_message_label.text = ironic_messages_list.pick_random()
+	
+	game_over_screen.show()
 
 func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_index: int):
 	var chosen_move = attacker.moveset[move_index]
@@ -73,3 +94,18 @@ func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_ind
 	
 	if defender.character_name == active_player_stats.character_name:
 		health_bar.update_health(defender.current_health, defender.max_health)
+	
+	if defender.character_name == active_player_stats.character_name and defender.current_health <= 0:
+		trigger_game_over()
+
+
+func _on_retry_button_pressed() -> void:
+	game_over_screen.hide()
+	
+	active_player_stats = player_saved_stats.duplicate()
+	active_mom_stats = mom_saved_stats.duplicate()
+	
+	health_bar.update_health(active_player_stats.current_health, active_player_stats.max_health)
+	
+	current_turn = Turn.PLAYER
+	move_1_button.disabled = false
