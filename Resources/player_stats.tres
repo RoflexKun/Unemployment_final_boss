@@ -6,6 +6,7 @@
 [sub_resource type="Resource" id="Resource_yhl7x"]
 script = ExtResource("1_yhl7x")
 move_name = "Punch"
+damage = 20
 description = "Punch"
 metadata/_custom_type_script = "uid://dgtc6hinqyd12"
 

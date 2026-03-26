@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://6sinpegxyk2m"]
+
+[ext_resource type="Texture2D" uid="uid://bbyo2lrrjce12" path="res://Drawing_assets/Final_Boss_assets/DOG.png" id="1_2oyby"]
+[ext_resource type="Script" uid="uid://dgtc6hinqyd12" path="res://Scripts/Move.gd" id="1_hrlop"]
+[ext_resource type="Script" uid="uid://ds5wu3jdcjejx" path="res://Scripts/character_stats.gd" id="2_2oyby"]
+
+[sub_resource type="Resource" id="Resource_hrlop"]
+script = ExtResource("1_hrlop")
+move_name = "Latra"
+damage = 5
+description = "Latra ca un crizat la tine"
+prob = 99
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[sub_resource type="Resource" id="Resource_2oyby"]
+script = ExtResource("1_hrlop")
+move_name = "Pipi pe PC"
+damage = 90
+description = "Face pipi pe nava ta spatiala si ti-o crapa"
+prob = 1
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[resource]
+script = ExtResource("2_2oyby")
+character_name = "Dog"
+moveset = Array[ExtResource("1_hrlop")]([SubResource("Resource_hrlop"), SubResource("Resource_2oyby")])
+character_texture = ExtResource("1_2oyby")
+metadata/_custom_type_script = "uid://ds5wu3jdcjejx"

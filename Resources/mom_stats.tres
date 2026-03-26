@@ -1,13 +1,14 @@
 [gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://c6s8iubsgfl3h"]
 
+[ext_resource type="Texture2D" uid="uid://dc0c0h2irgvut" path="res://Drawing_assets/Final_Boss_assets/MOM.png" id="1_ncm4k"]
 [ext_resource type="Script" uid="uid://dgtc6hinqyd12" path="res://Scripts/Move.gd" id="1_uldro"]
 [ext_resource type="Script" uid="uid://ds5wu3jdcjejx" path="res://Scripts/character_stats.gd" id="2_ncm4k"]
 
 [sub_resource type="Resource" id="Resource_uldro"]
 script = ExtResource("1_uldro")
 move_name = "Da cu slapul"
-damage = 20
 description = "Mama scoate slapul din picior si da in tine"
+prob = 70
 metadata/_custom_type_script = "uid://dgtc6hinqyd12"
 
 [sub_resource type="Resource" id="Resource_ncm4k"]
@@ -15,10 +16,12 @@ script = ExtResource("1_uldro")
 move_name = "Comparatie copilul vecinului"
 damage = 15
 description = "Mama incepe sa te compare cu copilul doctor al veciunului"
+prob = 30
 metadata/_custom_type_script = "uid://dgtc6hinqyd12"
 
 [resource]
 script = ExtResource("2_ncm4k")
 character_name = "Mom"
 moveset = Array[ExtResource("1_uldro")]([SubResource("Resource_uldro"), SubResource("Resource_ncm4k")])
+character_texture = ExtResource("1_ncm4k")
 metadata/_custom_type_script = "uid://ds5wu3jdcjejx"

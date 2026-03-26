@@ -7,9 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b3nbjtfip5ih" path="res://Drawing_assets/wall.png" id="2_uu6xs"]
 [ext_resource type="Resource" uid="uid://c8efk1fsktbv0" path="res://Resources/player_stats.tres" id="3_lgr22"]
 [ext_resource type="Texture2D" uid="uid://wqku00b2uy01" path="res://Drawing_assets/Door_assets/door_open.png" id="4_3dxm6"]
-[ext_resource type="Resource" uid="uid://bnrdi5uot0jgo" path="res://Resources/dad_stats.tres" id="5_kjvhd"]
 [ext_resource type="Texture2D" uid="uid://cme8lpg7ga1jc" path="res://Drawing_assets/Door_assets/door_closed.png" id="5_lgr22"]
-[ext_resource type="Resource" uid="uid://6sinpegxyk2m" path="res://Resources/dog_stats.tres" id="6_5tuhn"]
 [ext_resource type="Texture2D" uid="uid://cjmegdgdlx7bo" path="res://Drawing_assets/health_bar/health_bar_border.png" id="8_03owx"]
 [ext_resource type="Shader" uid="uid://b2yaqs3eknt6y" path="res://Drawing_assets/Final_Boss_assets/final_boss_outline.gdshader" id="8_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://bp67vw1jx2i1g" path="res://Drawing_assets/Final_Boss_assets/final_boss_v2.png" id="9_c6i3y"]
@@ -31,7 +29,7 @@ size = Vector2(109.71435, 176.7562)
 [node name="Node2D" type="Node2D" unique_id=223592358]
 script = ExtResource("1_fos0i")
 player_saved_stats = ExtResource("3_lgr22")
-enemy_roster = Array[ExtResource("2_sc1dx")]([ExtResource("2_3dxm6"), ExtResource("5_kjvhd"), ExtResource("6_5tuhn")])
+enemy_roster = Array[ExtResource("2_sc1dx")]([ExtResource("2_3dxm6")])
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=779097629]
 position = Vector2(576, 602.5)

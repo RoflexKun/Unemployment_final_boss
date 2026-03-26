@@ -1,24 +1,27 @@
 extends Node2D 
 
-@onready var mom = $Mom 
+@onready var enemy_visual = $EnemyVisual
 @onready var door_closed = $DoorClosed 
 @onready var door_open = $DoorOpen 
 
 # Grab references to the buttons we just made
 @onready var move_1_button = $Move1Button
+@onready var inventory_button = $InventoryButton
 @onready var boss_health_ui = $BossHealthUI
 @onready var health_bar = $BossHealthUI/HealthBar
 
 @onready var game_over_screen = $GameOverScreen
 @onready var random_message_label = $GameOverScreen/DeathName
+@onready var timer = $Timer
 
-@export var mom_saved_stats: CharacterStats
 @export var player_saved_stats: CharacterStats
+@export var enemy_roster: Array[CharacterStats]
 
-var active_mom_stats: CharacterStats
+var enemy_queue: Array[CharacterStats]
+var active_enemy_stats: CharacterStats
 var active_player_stats: CharacterStats
 
-enum Turn { PLAYER, MOM }
+enum Turn { PLAYER, ENEMY }
 var current_turn = Turn.PLAYER
 
 var ironic_messages_list = [
@@ -31,51 +34,98 @@ var ironic_messages_list = [
 ]
 
 func _ready():
-	mom.hide()
+	enemy_visual.hide()
 	door_closed.show()
 	door_open.hide()
 	boss_health_ui.hide()
 	game_over_screen.hide()
-	
 	move_1_button.hide()
 	
-	if mom_saved_stats and player_saved_stats:
-		active_mom_stats = mom_saved_stats.duplicate()
-		active_player_stats = player_saved_stats.duplicate()
+	start_new_run()
+
+func start_new_run():
+	if not player_saved_stats or enemy_roster.is_empty():
+		print("Make sure you add stats to the Inspector!")
+		return
+		
+	active_player_stats = player_saved_stats.duplicate()
+	health_bar.update_health(active_player_stats.current_health, active_player_stats.max_health)
+	
+	# Duplicate the roster and shuffle it so the order is random every time
+	enemy_queue = enemy_roster.duplicate()
+	enemy_queue.shuffle() 
+	
+	spawn_next_enemy()
+	
+func spawn_next_enemy():
+	if enemy_queue.is_empty():
+		print("YOU BEAT EVERYONE! YOU WIN!")
+		return 
+	
+	# Pop the first enemy off the shuffled list
+	active_enemy_stats = enemy_queue.pop_front().duplicate()
+	enemy_visual.texture = active_enemy_stats.character_texture
+	
+	# Reset the door and start the dramatic entrance timer
+	enemy_visual.hide()
+	door_open.hide()
+	door_closed.show()
+	timer.start()
 
 func _on_timer_timeout():
 	door_closed.hide()
 	door_open.show()
-	mom.show()
+	enemy_visual.show()
 	boss_health_ui.show()
 	
-	# move_1_button.show()
+	current_turn = Turn.PLAYER
+	move_1_button.disabled = false
+	inventory_button.disabled = false
 
-# 2. Player clicks Button 1
 func _on_move_1_button_pressed():
 	if current_turn == Turn.PLAYER:
 		take_player_turn(0)
 
 func take_player_turn(move_index: int):
 	# Player attacks
-	perform_attack(active_player_stats, active_mom_stats, move_index)
+	perform_attack(active_player_stats, active_enemy_stats, move_index)
 	
 	# Disable buttons so the player can't spam click
 	move_1_button.disabled = true
+	inventory_button.disabled = true
 	
-	# Switch turn to Mom
-	current_turn = Turn.MOM
+	if active_enemy_stats.current_health <= 0:
+		print(active_enemy_stats.character_name + " was defeated!")
+		spawn_next_enemy()
+		return
 	
-	get_tree().create_timer(1.5).timeout.connect(mom_take_turn)
+	# Otherwise, it's the enemy's turn
+	current_turn = Turn.ENEMY
+	get_tree().create_timer(1.5).timeout.connect(enemy_take_turn)
 
-func mom_take_turn():
-	var random_move_index = randi() % active_mom_stats.moveset.size()
+func enemy_take_turn():
+	# 1. Roll a random number from 1 to 100 (like rolling a d100 in D&D)
+	var roll = randi_range(1, 100)
+	var current_sum = 0
+	var chosen_move_index = 0
 	
-	perform_attack(active_mom_stats, active_player_stats, random_move_index)
+	# 2. Step through the moves and check the roll
+	for i in range(active_enemy_stats.moveset.size()):
+		current_sum += active_enemy_stats.moveset[i].prob
+		
+		# If our roll falls within this move's probability window, pick it!
+		if roll <= current_sum:
+			chosen_move_index = i
+			break 
 	
-	current_turn = Turn.PLAYER
+	# 3. Perform the attack using the chosen move
+	perform_attack(active_enemy_stats, active_player_stats, chosen_move_index)
 	
-	move_1_button.disabled = false
+	# 4. Pass the turn back to the player
+	if active_player_stats.current_health > 0:
+		current_turn = Turn.PLAYER
+		move_1_button.disabled = false
+		inventory_button.disabled = false
 	
 func trigger_game_over():
 	random_message_label.text = ironic_messages_list.pick_random()
@@ -84,7 +134,7 @@ func trigger_game_over():
 
 func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_index: int):
 	var chosen_move = attacker.moveset[move_index]
-	var total_damage = chosen_move.damage + attacker.attack_power
+	var total_damage = chosen_move.damage
 	defender.current_health -= total_damage
 	
 	print(attacker.character_name + " used " + chosen_move.move_name + "!")
@@ -101,11 +151,4 @@ func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_ind
 
 func _on_retry_button_pressed() -> void:
 	game_over_screen.hide()
-	
-	active_player_stats = player_saved_stats.duplicate()
-	active_mom_stats = mom_saved_stats.duplicate()
-	
-	health_bar.update_health(active_player_stats.current_health, active_player_stats.max_health)
-	
-	current_turn = Turn.PLAYER
-	move_1_button.disabled = false
+	start_new_run()

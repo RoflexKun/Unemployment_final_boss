@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://bnrdi5uot0jgo"]
+
+[ext_resource type="Script" uid="uid://dgtc6hinqyd12" path="res://Scripts/Move.gd" id="1_exg86"]
+[ext_resource type="Texture2D" uid="uid://brit2yekbx3xx" path="res://Drawing_assets/Final_Boss_assets/DAD.png" id="1_ogwt7"]
+[ext_resource type="Script" uid="uid://ds5wu3jdcjejx" path="res://Scripts/character_stats.gd" id="2_ogwt7"]
+
+[sub_resource type="Resource" id="Resource_exg86"]
+script = ExtResource("1_exg86")
+move_name = "Cureaua"
+damage = 40
+description = "Tata foloseste miscarea suprema, CUREAUA!"
+prob = 5
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[sub_resource type="Resource" id="Resource_ogwt7"]
+script = ExtResource("1_exg86")
+move_name = "Tipa la tine"
+damage = 15
+description = "Zbiera la tine"
+prob = 60
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[sub_resource type="Resource" id="Resource_f8xlq"]
+script = ExtResource("1_exg86")
+move_name = "Palma peste ceafa"
+damage = 20
+description = "Lanseaza palma din Tecuci peste ceafa"
+prob = 35
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[resource]
+script = ExtResource("2_ogwt7")
+character_name = "Dad"
+moveset = Array[ExtResource("1_exg86")]([SubResource("Resource_exg86"), SubResource("Resource_ogwt7"), SubResource("Resource_f8xlq")])
+character_texture = ExtResource("1_ogwt7")
+metadata/_custom_type_script = "uid://ds5wu3jdcjejx"
