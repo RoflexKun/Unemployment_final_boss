@@ -28,6 +28,17 @@ shader_parameter/is_highlighted = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vvyt"]
 size = Vector2(109.71435, 176.7562)
 
+[sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
+font_color = Color(1, 0, 0, 1)
+outline_size = 2
+outline_color = Color(1, 0.7607843, 0.05490196, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5tuhn"]
+font_size = 32
+font_color = Color(1, 0, 0, 1)
+outline_size = 2
+outline_color = Color(1, 0.7607843, 0.05490196, 1)
+
 [node name="Node2D" type="Node2D" unique_id=223592358]
 script = ExtResource("1_fos0i")
 player_saved_stats = ExtResource("3_lgr22")
@@ -76,6 +87,14 @@ position = Vector2(-13.515472, 45.290726)
 scale = Vector2(0.9999997, 1)
 shape = SubResource("RectangleShape2D_5vvyt")
 
+[node name="PlayerCombatText" type="Label" parent="Player" unique_id=2035763250]
+offset_left = -31.801239
+offset_top = -93.51922
+offset_right = 31.801239
+offset_bottom = -63.17478
+label_settings = SubResource("LabelSettings_kjvhd")
+horizontal_alignment = 1
+
 [node name="Move1Button" type="TextureButton" parent="." unique_id=988640885]
 offset_left = 890.0
 offset_top = 229.0
@@ -104,6 +123,22 @@ texture = ExtResource("8_03owx")
 [node name="HealthBar" type="Sprite2D" parent="BossHealthUI" unique_id=507599145]
 position = Vector2(209, 590)
 scale = Vector2(1.8752835, 0.5882346)
+texture = ExtResource("9_wkp8b")
+centered = false
+region_enabled = true
+region_rect = Rect2(79.43509, 78.17904, 441.46457, 51.101997)
+script = ExtResource("10_wkp8b")
+
+[node name="EnemyHealthUI" type="Node2D" parent="." unique_id=321545524]
+
+[node name="HealthBarBorder" type="Sprite2D" parent="EnemyHealthUI" unique_id=66780034]
+position = Vector2(603.5, 634)
+scale = Vector2(1.5109375, 0.661111)
+texture = ExtResource("8_03owx")
+
+[node name="HealthBar" type="Sprite2D" parent="EnemyHealthUI" unique_id=1944955884]
+position = Vector2(292, 267)
+scale = Vector2(0.40589574, 0.2549012)
 texture = ExtResource("9_wkp8b")
 centered = false
 region_enabled = true
@@ -143,6 +178,18 @@ offset_top = 371.0
 offset_right = 686.0
 offset_bottom = 421.0
 text = "Retry"
+
+[node name="EnemyCombatText" type="Label" parent="." unique_id=702521151]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 301.0
+offset_top = 139.0
+offset_right = 464.0
+offset_bottom = 254.0
+theme_override_font_sizes/font_size = 32
+label_settings = SubResource("LabelSettings_5tuhn")
+horizontal_alignment = 1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="input_event" from="Player/Area2D" to="Player" method="_on_area_2d_input_event"]

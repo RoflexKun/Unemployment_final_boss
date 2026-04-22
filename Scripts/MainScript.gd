@@ -9,6 +9,8 @@ extends Node2D
 @onready var inventory_button = $InventoryButton
 @onready var boss_health_ui = $BossHealthUI
 @onready var health_bar = $BossHealthUI/HealthBar
+@onready var enemy_health_ui = $EnemyHealthUI
+@onready var enemy_health_bar = $EnemyHealthUI/HealthBar
 
 @onready var game_over_screen = $GameOverScreen
 @onready var random_message_label = $GameOverScreen/DeathName
@@ -16,6 +18,9 @@ extends Node2D
 
 @export var player_saved_stats: CharacterStats
 @export var enemy_roster: Array[CharacterStats]
+
+@onready var player_combat_text = $Player/PlayerCombatText
+@onready var enemy_combat_text = $EnemyCombatText
 
 var enemy_queue: Array[CharacterStats]
 var active_enemy_stats: CharacterStats
@@ -38,8 +43,11 @@ func _ready():
 	door_closed.show()
 	door_open.hide()
 	boss_health_ui.hide()
+	enemy_health_ui.hide()
 	game_over_screen.hide()
 	move_1_button.hide()
+	player_combat_text.hide()
+	enemy_combat_text.hide()
 	
 	start_new_run()
 
@@ -66,6 +74,8 @@ func spawn_next_enemy():
 	active_enemy_stats = enemy_queue.pop_front().duplicate()
 	enemy_visual.texture = active_enemy_stats.character_texture
 	
+	enemy_health_bar.update_health(active_enemy_stats.current_health, active_enemy_stats.max_health)
+	
 	# Reset the door and start the dramatic entrance timer
 	enemy_visual.hide()
 	door_open.hide()
@@ -77,6 +87,7 @@ func _on_timer_timeout():
 	door_open.show()
 	enemy_visual.show()
 	boss_health_ui.show()
+	enemy_health_ui.show()
 	
 	current_turn = Turn.PLAYER
 	move_1_button.disabled = false
@@ -96,6 +107,7 @@ func take_player_turn(move_index: int):
 	
 	if active_enemy_stats.current_health <= 0:
 		print(active_enemy_stats.character_name + " was defeated!")
+		enemy_health_ui.hide()
 		spawn_next_enemy()
 		return
 	
@@ -132,10 +144,27 @@ func trigger_game_over():
 	
 	game_over_screen.show()
 
+func display_combat_text(label_node: Label, text: String):
+	label_node.text = text
+	label_node.show()
+	label_node.modulate.a = 1.0 # Ensure it is fully visible at first
+	
+	# Create a simple animation to fade it out
+	var tween = get_tree().create_tween()
+	tween.tween_interval(1.0) # Keep it on screen for 1 second
+	tween.tween_property(label_node, "modulate:a", 0.0, 0.5) # Fade it out over 0.5 seconds
+	tween.tween_callback(label_node.hide) # Hide it completely when the fade is done
+
 func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_index: int):
 	var chosen_move = attacker.moveset[move_index]
 	var total_damage = chosen_move.damage
 	defender.current_health -= total_damage
+	
+	var combat_message = chosen_move.move_name + "!\n-" + str(total_damage) + " HP"
+	if attacker.character_name == active_player_stats.character_name:
+		display_combat_text(player_combat_text, combat_message)
+	else:
+		display_combat_text(enemy_combat_text, combat_message)
 	
 	print(attacker.character_name + " used " + chosen_move.move_name + "!")
 	print(defender.character_name + " took " + str(total_damage) + " damage!")
@@ -144,6 +173,8 @@ func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_ind
 	
 	if defender.character_name == active_player_stats.character_name:
 		health_bar.update_health(defender.current_health, defender.max_health)
+	else:
+		enemy_health_bar.update_health(defender.current_health, defender.max_health)
 	
 	if defender.character_name == active_player_stats.character_name and defender.current_health <= 0:
 		trigger_game_over()
