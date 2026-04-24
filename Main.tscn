@@ -24,6 +24,8 @@ shader = ExtResource("8_5vvyt")
 shader_parameter/outline_color = Color(0.7108482, 0.7108479, 7.70092e-07, 1)
 shader_parameter/outline_width = 1.0000000475
 shader_parameter/is_highlighted = true
+shader_parameter/flash_color = Color(1, 0, 0, 1)
+shader_parameter/flash_amount = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vvyt"]
 size = Vector2(109.71435, 176.7562)
@@ -165,12 +167,13 @@ scale = Vector2(5, 5)
 text = "Unemployed life over"
 
 [node name="DeathName" type="Label" parent="GameOverScreen" unique_id=1751860923]
-offset_left = 544.00006
-offset_top = 260.0
-offset_right = 584.00006
-offset_bottom = 283.0
+offset_left = 142.0
+offset_top = 270.0
+offset_right = 495.59998
+offset_bottom = 293.0
 scale = Vector2(2.5, 2.5)
 text = "text"
+horizontal_alignment = 1
 
 [node name="RetryButton" type="Button" parent="GameOverScreen" unique_id=982839487]
 offset_left = 486.0
@@ -180,7 +183,7 @@ offset_bottom = 421.0
 text = "Retry"
 
 [node name="EnemyCombatText" type="Label" parent="." unique_id=702521151]
-anchors_preset = -1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = 301.0

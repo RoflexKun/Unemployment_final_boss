@@ -1,6 +1,7 @@
 extends Node2D 
 
 @onready var enemy_visual = $EnemyVisual
+@onready var player_visual = $Player
 @onready var door_closed = $DoorClosed 
 @onready var door_open = $DoorOpen 
 
@@ -147,20 +148,25 @@ func trigger_game_over():
 func display_combat_text(label_node: Label, text: String):
 	label_node.text = text
 	label_node.show()
-	label_node.modulate.a = 1.0 # Ensure it is fully visible at first
+	label_node.modulate.a = 1.0
 	
-	# Create a simple animation to fade it out
 	var tween = get_tree().create_tween()
-	tween.tween_interval(1.0) # Keep it on screen for 1 second
-	tween.tween_property(label_node, "modulate:a", 0.0, 0.5) # Fade it out over 0.5 seconds
-	tween.tween_callback(label_node.hide) # Hide it completely when the fade is done
+	tween.tween_interval(1.0)
+	tween.tween_property(label_node, "modulate:a", 0.0, 0.5)
+	tween.tween_callback(label_node.hide)
 
 func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_index: int):
 	var chosen_move = attacker.moveset[move_index]
 	var total_damage = chosen_move.damage
 	defender.current_health -= total_damage
 	
+	if defender.character_name == active_player_stats.character_name:
+		apply_jitter(player_visual)
+	else:
+		apply_jitter(enemy_visual)
+		
 	var combat_message = chosen_move.move_name + "!\n-" + str(total_damage) + " HP"
+	
 	if attacker.character_name == active_player_stats.character_name:
 		display_combat_text(player_combat_text, combat_message)
 	else:
@@ -178,7 +184,26 @@ func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_ind
 	
 	if defender.character_name == active_player_stats.character_name and defender.current_health <= 0:
 		trigger_game_over()
-
+		
+func apply_jitter(node_to_shake: Node2D):
+	var original_pos = node_to_shake.position
+	
+	var color_tween = get_tree().create_tween()
+	
+	if node_to_shake.material:
+		node_to_shake.material.set_shader_parameter("flash_amount", 1.0)
+		color_tween.tween_property(node_to_shake.material, "shader_parameter/flash_amount", 0.0, 0.5)
+	else:
+		node_to_shake.modulate = Color.RED
+		color_tween.tween_property(node_to_shake, "modulate", Color.WHITE, 0.5) 
+	
+	var tween = get_tree().create_tween()
+	
+	for i in range(10):
+		var random_offset = Vector2(randf_range(-15, 15), randf_range(-15, 15))
+		tween.tween_property(node_to_shake, "position", original_pos + random_offset, 0.05)
+	
+	tween.tween_property(node_to_shake, "position", original_pos, 0.05)
 
 func _on_retry_button_pressed() -> void:
 	game_over_screen.hide()
