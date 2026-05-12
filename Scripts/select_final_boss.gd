@@ -3,6 +3,9 @@ extends Sprite2D
 @onready var abilities_button = $"../Move1Button"
 @onready var inventory_button = $"../InventoryButton"
 
+@onready var inventory_ui = $"../InventoryUI"
+@onready var abilities_ui = $"../AbilitiesUI"
+
 func _ready():
 	material.set_shader_parameter("is_highlighted", false)
 	abilities_button.hide()
@@ -13,6 +16,8 @@ func _on_area_2d_input_event(viewport, event, shape_idx):
 		material.set_shader_parameter("is_highlighted", true)
 		abilities_button.show()
 		inventory_button.show()
+		inventory_ui.hide()
+		abilities_ui.hide()
 		get_viewport().set_input_as_handled()
 
 
@@ -21,3 +26,5 @@ func _unhandled_input(event):
 		material.set_shader_parameter("is_highlighted", false)
 		abilities_button.hide()
 		inventory_button.hide()
+		inventory_ui.hide()
+		abilities_ui.hide()

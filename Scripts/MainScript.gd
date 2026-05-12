@@ -23,6 +23,38 @@ extends Node2D
 @onready var player_combat_text = $Player/PlayerCombatText
 @onready var enemy_combat_text = $EnemyCombatText
 
+@onready var abilities_ui = $AbilitiesUI
+
+var unlocked_abilities: int = 1
+
+@onready var ability_slot_1 = $AbilitiesUI/GridContainer/TextureButton
+@onready var ability_slot_2 = $AbilitiesUI/GridContainer/TextureButton2
+@onready var ability_slot_3 = $AbilitiesUI/GridContainer/TextureButton3
+@onready var ability_slot_4 = $AbilitiesUI/GridContainer/TextureButton4
+@onready var abilities_slots = [ability_slot_1, ability_slot_2, ability_slot_3, ability_slot_4]
+
+#TODO when assets are done I need to modify this
+var tex_empty_ability = preload("res://Drawing_assets/buttons/empty_inventory.png")
+
+
+@onready var inventory_ui = $InventoryUI
+var player_inventory: Array[String] = ["", "", "", ""]
+@onready var inv_slot_1 = $InventoryUI/GridContainer/TextureButton
+@onready var inv_slot_2 = $InventoryUI/GridContainer/TextureButton2
+@onready var inv_slot_3 = $InventoryUI/GridContainer/TextureButton3
+@onready var inv_slot_4 = $InventoryUI/GridContainer/TextureButton4 
+@onready var inventory_slots = [inv_slot_1, inv_slot_2, inv_slot_3, inv_slot_4]
+
+@onready var item_spawn_area = $ItemSpawnArea
+var tex_cookies = preload("res://Drawing_assets/Items/cookies.png")
+var tex_energy = preload("res://Drawing_assets/Items/energy_drink.png")
+var tex_pufs = preload("res://Drawing_assets/Items/pufs.png")
+var loot_table = {
+	"Cookies": [40, tex_cookies],
+	"Energy Drink": [30, tex_energy],
+	"Pufs": [30, tex_pufs]
+}
+
 var enemy_queue: Array[CharacterStats]
 var active_enemy_stats: CharacterStats
 var active_player_stats: CharacterStats
@@ -49,7 +81,13 @@ func _ready():
 	move_1_button.hide()
 	player_combat_text.hide()
 	enemy_combat_text.hide()
+	inventory_ui.hide()
+	abilities_ui.hide()
 	
+	ability_slot_1.pressed.connect(func(): use_ability(0))
+	ability_slot_2.pressed.connect(func(): use_ability(1))
+	ability_slot_3.pressed.connect(func(): use_ability(2))
+	ability_slot_4.pressed.connect(func(): use_ability(3))
 	start_new_run()
 
 func start_new_run():
@@ -75,6 +113,19 @@ func spawn_next_enemy():
 	active_enemy_stats = enemy_queue.pop_front().duplicate()
 	enemy_visual.texture = active_enemy_stats.character_texture
 	
+	enemy_visual.scale = Vector2(1, 1)
+	
+	match active_enemy_stats.character_name:
+		"Dog":
+			enemy_visual.scale = Vector2(2.5, 2.5)
+			enemy_visual.position = Vector2(400, 520)
+		"Mom":
+			enemy_visual.scale = Vector2(1, 1)
+			enemy_visual.position = Vector2(450, 400)		
+		"Dad":
+			enemy_visual.scale = Vector2(1.1, 1.1)
+			enemy_visual.position = Vector2(450, 400)
+	
 	enemy_health_bar.update_health(active_enemy_stats.current_health, active_enemy_stats.max_health)
 	
 	# Reset the door and start the dramatic entrance timer
@@ -95,8 +146,11 @@ func _on_timer_timeout():
 	inventory_button.disabled = false
 
 func _on_move_1_button_pressed():
-	if current_turn == Turn.PLAYER:
-		take_player_turn(0)
+	move_1_button.hide()
+	inventory_button.hide()
+	
+	abilities_ui.show()
+	
 
 func take_player_turn(move_index: int):
 	# Player attacks
@@ -109,6 +163,25 @@ func take_player_turn(move_index: int):
 	if active_enemy_stats.current_health <= 0:
 		print(active_enemy_stats.character_name + " was defeated!")
 		enemy_health_ui.hide()
+		
+		if unlocked_abilities < 4: 
+			var new_slot_index = unlocked_abilities 
+			unlocked_abilities += 1 
+			
+			var slot_button = abilities_slots[new_slot_index]
+			
+			slot_button.texture_normal = tex_empty_ability
+			
+			slot_button.ignore_texture_size = true
+			slot_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+			
+			slot_button.custom_minimum_size = Vector2(32, 32) 
+			
+			if slot_button.has_node("ItemIcon"):
+				slot_button.get_node("ItemIcon").hide()
+			
+			print("Ai deblocat abilitatea de pe slotul " + str(new_slot_index + 1) + "!")
+		
 		spawn_next_enemy()
 		return
 	
@@ -137,6 +210,7 @@ func enemy_take_turn():
 	# 4. Pass the turn back to the player
 	if active_player_stats.current_health > 0:
 		current_turn = Turn.PLAYER
+		spawn_random_item()
 		move_1_button.disabled = false
 		inventory_button.disabled = false
 	
@@ -154,6 +228,18 @@ func display_combat_text(label_node: Label, text: String):
 	tween.tween_interval(1.0)
 	tween.tween_property(label_node, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(label_node.hide)
+
+func use_ability(slot_index: int):
+	if slot_index >= unlocked_abilities:
+		print("This ability has not been unlocked")
+		return
+		
+	abilities_ui.hide()
+	move_1_button.show()
+	inventory_button.show()
+	
+	if current_turn == Turn.PLAYER:
+		take_player_turn(slot_index)
 
 func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_index: int):
 	var chosen_move = attacker.moveset[move_index]
@@ -204,7 +290,66 @@ func apply_jitter(node_to_shake: Node2D):
 		tween.tween_property(node_to_shake, "position", original_pos + random_offset, 0.05)
 	
 	tween.tween_property(node_to_shake, "position", original_pos, 0.05)
+	
+func pickup_item(item_name: String, item_node: Node):
+	var slot_index = -1
+	for i in range(player_inventory.size()):
+		if player_inventory[i] == "":
+			slot_index = i
+			break
+	
+	if slot_index != -1:
+		player_inventory[slot_index] = item_name
+		var item_texture = loot_table[item_name][1]
+		
+		var icon_node = inventory_slots[slot_index].get_node("ItemIcon")
+		icon_node.texture = item_texture
+		
+		item_node.queue_free()
+	else:
+		print("E plin inventarul, vedem ce facem aici")
+
+func spawn_random_item():
+	var spawn_chance = randi_range(1, 100)
+	
+	if spawn_chance > 40:
+		return
+		
+	var item_roll = randi_range(1, 100)
+	var current_sum = 0
+	var chosen_texture = null
+	var chosen_name = ""
+	
+	for item_name in loot_table.keys():
+		current_sum += loot_table[item_name][0]
+		if item_roll <= current_sum:
+			chosen_texture = loot_table[item_name][1]
+			chosen_name = item_name
+			break
+	
+	var new_item = TextureButton.new()
+	new_item.texture_normal = chosen_texture
+	new_item.scale = Vector2(2, 2)
+	new_item.z_index = 100 
+	
+	new_item.ignore_texture_size = true
+	new_item.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	new_item.custom_minimum_size = Vector2(32, 32)
+	new_item.pressed.connect(func(): pickup_item(chosen_name, new_item))
+	
+	var random_x = randf_range(250, 750)
+	var fixed_y = item_spawn_area.position.y
+	
+	new_item.position = Vector2(random_x, fixed_y)
+	
+	add_child(new_item)
 
 func _on_retry_button_pressed() -> void:
-	game_over_screen.hide()
-	start_new_run()
+	get_tree().reload_current_scene()
+
+
+func _on_inventory_button_pressed() -> void:
+	move_1_button.hide()
+	inventory_button.hide()
+	
+	inventory_ui.show()

@@ -18,6 +18,9 @@
 [ext_resource type="Script" uid="uid://dbdhs8om2oyqa" path="res://Scripts/health_bar_management.gd" id="10_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://crau318c4ooah" path="res://Drawing_assets/buttons/abilities_button.png" id="11_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://boit4rf30ksft" path="res://Drawing_assets/buttons/items_button.png" id="12_fpfj3"]
+[ext_resource type="Texture2D" uid="uid://hfallenomvw8" path="res://Drawing_assets/buttons/empty_inventory.png" id="19_5tuhn"]
+[ext_resource type="Texture2D" uid="uid://byhgxs0fr2kac" path="res://Drawing_assets/buttons/punch_ability.png" id="20_devvj"]
+[ext_resource type="Texture2D" uid="uid://ixy41qbdfk30" path="res://Drawing_assets/buttons/locked_ability.png" id="21_3b0ty"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c2ibq"]
 shader = ExtResource("8_5vvyt")
@@ -194,8 +197,187 @@ theme_override_font_sizes/font_size = 32
 label_settings = SubResource("LabelSettings_5tuhn")
 horizontal_alignment = 1
 
+[node name="ItemSpawnArea" type="Marker2D" parent="." unique_id=2078453998]
+position = Vector2(494, 556)
+
+[node name="InventoryUI" type="Control" parent="." unique_id=265549570]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 889.0
+offset_top = 232.0
+offset_right = 939.0
+offset_bottom = 502.0
+scale = Vector2(1.5, 1.5)
+
+[node name="GridContainer" type="GridContainer" parent="InventoryUI" unique_id=986544220]
+layout_mode = 0
+offset_left = 0.6666667
+offset_top = -2.0
+offset_right = 54.666668
+offset_bottom = 176.0
+
+[node name="TextureButton" type="TextureButton" parent="InventoryUI/GridContainer" unique_id=1452147650]
+layout_mode = 2
+texture_normal = ExtResource("19_5tuhn")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryUI/GridContainer/TextureButton" unique_id=1095354671]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="TextureButton2" type="TextureButton" parent="InventoryUI/GridContainer" unique_id=2036836462]
+layout_mode = 2
+texture_normal = ExtResource("19_5tuhn")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryUI/GridContainer/TextureButton2" unique_id=127918629]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="TextureButton3" type="TextureButton" parent="InventoryUI/GridContainer" unique_id=2039216759]
+layout_mode = 2
+texture_normal = ExtResource("19_5tuhn")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryUI/GridContainer/TextureButton3" unique_id=1346887553]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="TextureButton4" type="TextureButton" parent="InventoryUI/GridContainer" unique_id=124888358]
+layout_mode = 2
+texture_normal = ExtResource("19_5tuhn")
+
+[node name="ItemIcon" type="TextureRect" parent="InventoryUI/GridContainer/TextureButton4" unique_id=778077215]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="AbilitiesUI" type="Control" parent="." unique_id=344848997]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 889.0
+offset_top = 232.0
+offset_right = 939.0
+offset_bottom = 502.0
+scale = Vector2(1.5, 1.5)
+
+[node name="GridContainer" type="GridContainer" parent="AbilitiesUI" unique_id=896144454]
+layout_mode = 0
+offset_left = 0.6666667
+offset_top = -2.0
+offset_right = 54.666668
+offset_bottom = 176.0
+
+[node name="TextureButton" type="TextureButton" parent="AbilitiesUI/GridContainer" unique_id=639735075]
+layout_mode = 2
+texture_normal = ExtResource("20_devvj")
+
+[node name="ItemIcon" type="TextureRect" parent="AbilitiesUI/GridContainer/TextureButton" unique_id=1963772626]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="TextureButton2" type="TextureButton" parent="AbilitiesUI/GridContainer" unique_id=336768282]
+layout_mode = 2
+texture_normal = ExtResource("21_3b0ty")
+
+[node name="ItemIcon" type="TextureRect" parent="AbilitiesUI/GridContainer/TextureButton2" unique_id=2027493763]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="TextureButton3" type="TextureButton" parent="AbilitiesUI/GridContainer" unique_id=2046485810]
+layout_mode = 2
+texture_normal = ExtResource("21_3b0ty")
+
+[node name="ItemIcon" type="TextureRect" parent="AbilitiesUI/GridContainer/TextureButton3" unique_id=1402519693]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
+[node name="TextureButton4" type="TextureButton" parent="AbilitiesUI/GridContainer" unique_id=1669064597]
+layout_mode = 2
+texture_normal = ExtResource("21_3b0ty")
+
+[node name="ItemIcon" type="TextureRect" parent="AbilitiesUI/GridContainer/TextureButton4" unique_id=1626455467]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+stretch_mode = 5
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="input_event" from="Player/Area2D" to="Player" method="_on_area_2d_input_event"]
 [connection signal="pressed" from="Move1Button" to="." method="_on_move_1_button_pressed"]
-[connection signal="pressed" from="InventoryButton" to="." method="_on_move_1_button_pressed"]
+[connection signal="pressed" from="InventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="pressed" from="GameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]

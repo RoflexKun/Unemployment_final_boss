@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bynfhedt01pb"
-path="res://.godot/imported/DOG.png-33b99e42184209f6f29784e33bc36fae.ctex"
+uid="uid://byhgxs0fr2kac"
+path="res://.godot/imported/punch_ability.png-c49e52f92a4bb766354e8b5ce57f8b37.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Drawing_assets/Final_Boss_assets/DOG.png"
-dest_files=["res://.godot/imported/DOG.png-33b99e42184209f6f29784e33bc36fae.ctex"]
+source_file="res://Drawing_assets/buttons/punch_ability.png"
+dest_files=["res://.godot/imported/punch_ability.png-c49e52f92a4bb766354e8b5ce57f8b37.ctex"]
 
 [params]
 

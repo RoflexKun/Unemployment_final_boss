@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bynfhedt01pb"
-path="res://.godot/imported/DOG.png-33b99e42184209f6f29784e33bc36fae.ctex"
+uid="uid://ixy41qbdfk30"
+path="res://.godot/imported/locked_ability.png-5d7c6ad3c825b5e09e1f99d2f4beaf51.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Drawing_assets/Final_Boss_assets/DOG.png"
-dest_files=["res://.godot/imported/DOG.png-33b99e42184209f6f29784e33bc36fae.ctex"]
+source_file="res://Drawing_assets/buttons/locked_ability.png"
+dest_files=["res://.godot/imported/locked_ability.png-5d7c6ad3c825b5e09e1f99d2f4beaf51.ctex"]
 
 [params]
 

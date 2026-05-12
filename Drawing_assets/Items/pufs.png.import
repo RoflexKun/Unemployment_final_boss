@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bynfhedt01pb"
-path="res://.godot/imported/DOG.png-33b99e42184209f6f29784e33bc36fae.ctex"
+uid="uid://xrrclwf2ntif"
+path="res://.godot/imported/pufs.png-8db886275cc2a4d22395a3f0971c97e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Drawing_assets/Final_Boss_assets/DOG.png"
-dest_files=["res://.godot/imported/DOG.png-33b99e42184209f6f29784e33bc36fae.ctex"]
+source_file="res://Drawing_assets/Items/pufs.png"
+dest_files=["res://.godot/imported/pufs.png-8db886275cc2a4d22395a3f0971c97e9.ctex"]
 
 [params]
 
