@@ -31,6 +31,8 @@ metadata/_custom_type_script = "uid://dgtc6hinqyd12"
 [resource]
 script = ExtResource("2_ogwt7")
 character_name = "Dad"
+max_health = 250
+current_health = 250
 moveset = Array[ExtResource("1_exg86")]([SubResource("Resource_exg86"), SubResource("Resource_ogwt7"), SubResource("Resource_f8xlq")])
 character_texture = ExtResource("1_ogwt7")
 metadata/_custom_type_script = "uid://ds5wu3jdcjejx"

@@ -22,6 +22,8 @@ metadata/_custom_type_script = "uid://dgtc6hinqyd12"
 [resource]
 script = ExtResource("2_ncm4k")
 character_name = "Mom"
+max_health = 200
+current_health = 200
 moveset = Array[ExtResource("1_uldro")]([SubResource("Resource_uldro"), SubResource("Resource_ncm4k")])
 character_texture = ExtResource("1_ncm4k")
 metadata/_custom_type_script = "uid://ds5wu3jdcjejx"

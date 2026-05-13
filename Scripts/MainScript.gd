@@ -108,7 +108,6 @@ func start_new_run():
 	active_player_stats = player_saved_stats.duplicate()
 	health_bar.update_health(active_player_stats.current_health, active_player_stats.max_health)
 	
-	# Duplicate the roster and shuffle it so the order is random every time
 	enemy_queue = enemy_roster.duplicate()
 	#enemy_queue.shuffle() 
 	
@@ -201,24 +200,19 @@ func take_player_turn(move_index: int):
 	get_tree().create_timer(1.5).timeout.connect(enemy_take_turn)
 
 func enemy_take_turn():
-	# 1. Roll a random number from 1 to 100 (like rolling a d100 in D&D)
 	var roll = randi_range(1, 100)
 	var current_sum = 0
 	var chosen_move_index = 0
 	
-	# 2. Step through the moves and check the roll
 	for i in range(active_enemy_stats.moveset.size()):
 		current_sum += active_enemy_stats.moveset[i].prob
 		
-		# If our roll falls within this move's probability window, pick it!
 		if roll <= current_sum:
 			chosen_move_index = i
 			break 
 	
-	# 3. Perform the attack using the chosen move
 	perform_attack(active_enemy_stats, active_player_stats, chosen_move_index)
 	
-	# 4. Pass the turn back to the player
 	if active_player_stats.current_health > 0:
 		current_turn = Turn.PLAYER
 		spawn_random_item()
@@ -369,7 +363,7 @@ func pickup_item(item_name: String, item_node: Node):
 func spawn_random_item(guaranteed: bool = false):
 	if not guaranteed:
 		var spawn_chance = randi_range(1, 100)
-		if spawn_chance > 20: # <--- Modificat din 40 în 20
+		if spawn_chance > 30:
 			return
 		
 	var item_roll = randi_range(1, 100)
@@ -402,7 +396,6 @@ func spawn_random_item(guaranteed: bool = false):
 	add_child(new_item)
 	
 func trigger_win_screen():
-	# Poți opri timerul sau muzica aici dacă ai
 	win_screen.show()
 	print("Ecran de victorie afișat!")
 
