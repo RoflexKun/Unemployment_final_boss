@@ -10,8 +10,29 @@ damage = 20
 description = "Punch"
 metadata/_custom_type_script = "uid://dgtc6hinqyd12"
 
+[sub_resource type="Resource" id="Resource_f28lj"]
+script = ExtResource("1_yhl7x")
+move_name = "Criza nervoasa"
+damage = 15
+description = "Se enerveaza si are o cadere nervoasa"
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[sub_resource type="Resource" id="Resource_01cwn"]
+script = ExtResource("1_yhl7x")
+move_name = "Tavalire pe jos"
+damage = 25
+description = "Se pune pe jos si face ca un bebe"
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
+[sub_resource type="Resource" id="Resource_ppl72"]
+script = ExtResource("1_yhl7x")
+move_name = "Cheese puffs FART"
+damage = 30
+description = "Part radioactiv"
+metadata/_custom_type_script = "uid://dgtc6hinqyd12"
+
 [resource]
 script = ExtResource("2_f28lj")
 character_name = "Player"
-moveset = Array[ExtResource("1_yhl7x")]([SubResource("Resource_yhl7x")])
+moveset = Array[ExtResource("1_yhl7x")]([SubResource("Resource_yhl7x"), SubResource("Resource_f28lj"), SubResource("Resource_01cwn"), SubResource("Resource_ppl72")])
 metadata/_custom_type_script = "uid://ds5wu3jdcjejx"

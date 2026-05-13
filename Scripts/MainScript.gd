@@ -15,6 +15,8 @@ extends Node2D
 
 @onready var game_over_screen = $GameOverScreen
 @onready var random_message_label = $GameOverScreen/DeathName
+@onready var win_screen = $WinScreen
+@onready var win_message_label = $WinScreen/WinMessage
 @onready var timer = $Timer
 
 @export var player_saved_stats: CharacterStats
@@ -26,6 +28,8 @@ extends Node2D
 @onready var abilities_ui = $AbilitiesUI
 
 var unlocked_abilities: int = 1
+var bonus_damage: int = 0
+var damage_reduction: int = 0
 
 @onready var ability_slot_1 = $AbilitiesUI/GridContainer/TextureButton
 @onready var ability_slot_2 = $AbilitiesUI/GridContainer/TextureButton2
@@ -78,6 +82,7 @@ func _ready():
 	boss_health_ui.hide()
 	enemy_health_ui.hide()
 	game_over_screen.hide()
+	win_screen.hide()
 	move_1_button.hide()
 	player_combat_text.hide()
 	enemy_combat_text.hide()
@@ -88,6 +93,11 @@ func _ready():
 	ability_slot_2.pressed.connect(func(): use_ability(1))
 	ability_slot_3.pressed.connect(func(): use_ability(2))
 	ability_slot_4.pressed.connect(func(): use_ability(3))
+	
+	inv_slot_1.pressed.connect(func(): use_item(0))
+	inv_slot_2.pressed.connect(func(): use_item(1))
+	inv_slot_3.pressed.connect(func(): use_item(2))
+	inv_slot_4.pressed.connect(func(): use_item(3))
 	start_new_run()
 
 func start_new_run():
@@ -100,13 +110,14 @@ func start_new_run():
 	
 	# Duplicate the roster and shuffle it so the order is random every time
 	enemy_queue = enemy_roster.duplicate()
-	enemy_queue.shuffle() 
+	#enemy_queue.shuffle() 
 	
 	spawn_next_enemy()
 	
 func spawn_next_enemy():
 	if enemy_queue.is_empty():
 		print("YOU BEAT EVERYONE! YOU WIN!")
+		trigger_win_screen()
 		return 
 	
 	# Pop the first enemy off the shuffled list
@@ -181,7 +192,7 @@ func take_player_turn(move_index: int):
 				slot_button.get_node("ItemIcon").hide()
 			
 			print("Ai deblocat abilitatea de pe slotul " + str(new_slot_index + 1) + "!")
-		
+		spawn_random_item(true)
 		spawn_next_enemy()
 		return
 	
@@ -219,8 +230,14 @@ func trigger_game_over():
 	
 	game_over_screen.show()
 
-func display_combat_text(label_node: Label, text: String):
+func display_combat_text(label_node: Label, text: String, text_color: Color = Color.RED):
 	label_node.text = text
+	
+	if label_node.label_settings:
+		var new_settings = label_node.label_settings.duplicate()
+		new_settings.font_color = text_color
+		label_node.label_settings = new_settings
+		
 	label_node.show()
 	label_node.modulate.a = 1.0
 	
@@ -240,10 +257,50 @@ func use_ability(slot_index: int):
 	
 	if current_turn == Turn.PLAYER:
 		take_player_turn(slot_index)
+		
+func use_item(slot_index: int):
+	var item_name = player_inventory[slot_index]
+	
+	if item_name == "":
+		print("Slot gol!")
+		return
+		
+	match item_name:
+		"Cookies":
+			active_player_stats.current_health = min(active_player_stats.max_health, active_player_stats.current_health + 15)
+			health_bar.update_health(active_player_stats.current_health, active_player_stats.max_health)
+			display_combat_text(player_combat_text, "Cookies!\n+15 HP", Color.GREEN)
+			print("Ai mancat cookies! +15 HP")
+		"Energy Drink":
+			bonus_damage = 10
+			display_combat_text(player_combat_text, "Energy!\n+10 DMG", Color.GREEN)
+			print("Energy Drink activat! +10 damage la urmatorul atac")
+		"Pufs":
+			damage_reduction = 5
+			display_combat_text(player_combat_text, "Pufs!\n-5 DMG Inamic", Color.GREEN)
+			print("Pufs activati! Urmatorul atac primit va fi redus cu 5")
+
+	player_inventory[slot_index] = ""
+	
+	var icon_node = inventory_slots[slot_index].get_node("ItemIcon")
+	icon_node.texture = null
+	
+	inventory_ui.hide()
+	move_1_button.show()
+	inventory_button.show()
 
 func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_index: int):
 	var chosen_move = attacker.moveset[move_index]
 	var total_damage = chosen_move.damage
+	
+	if attacker.character_name == active_player_stats.character_name:
+		total_damage += bonus_damage
+		bonus_damage = 0
+	
+	if defender.character_name == active_player_stats.character_name:
+		total_damage = max(0, total_damage - damage_reduction)
+		damage_reduction = 0
+	
 	defender.current_health -= total_damage
 	
 	if defender.character_name == active_player_stats.character_name:
@@ -309,11 +366,11 @@ func pickup_item(item_name: String, item_node: Node):
 	else:
 		print("E plin inventarul, vedem ce facem aici")
 
-func spawn_random_item():
-	var spawn_chance = randi_range(1, 100)
-	
-	if spawn_chance > 40:
-		return
+func spawn_random_item(guaranteed: bool = false):
+	if not guaranteed:
+		var spawn_chance = randi_range(1, 100)
+		if spawn_chance > 20: # <--- Modificat din 40 în 20
+			return
 		
 	var item_roll = randi_range(1, 100)
 	var current_sum = 0
@@ -343,6 +400,11 @@ func spawn_random_item():
 	new_item.position = Vector2(random_x, fixed_y)
 	
 	add_child(new_item)
+	
+func trigger_win_screen():
+	# Poți opri timerul sau muzica aici dacă ai
+	win_screen.show()
+	print("Ecran de victorie afișat!")
 
 func _on_retry_button_pressed() -> void:
 	get_tree().reload_current_scene()

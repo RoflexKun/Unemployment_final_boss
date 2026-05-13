@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://bnrdi5uot0jgo" path="res://Resources/dad_stats.tres" id="5_kjvhd"]
 [ext_resource type="Texture2D" uid="uid://cme8lpg7ga1jc" path="res://Drawing_assets/Door_assets/door_closed.png" id="5_lgr22"]
 [ext_resource type="Resource" uid="uid://6sinpegxyk2m" path="res://Resources/dog_stats.tres" id="6_5tuhn"]
+[ext_resource type="Resource" uid="uid://dwvtqqy53p822" path="res://Resources/sister_stats.tres" id="7_3b0ty"]
 [ext_resource type="Texture2D" uid="uid://cjmegdgdlx7bo" path="res://Drawing_assets/health_bar/health_bar_border.png" id="8_03owx"]
 [ext_resource type="Shader" uid="uid://b2yaqs3eknt6y" path="res://Drawing_assets/Final_Boss_assets/final_boss_outline.gdshader" id="8_5vvyt"]
 [ext_resource type="Texture2D" uid="uid://bp67vw1jx2i1g" path="res://Drawing_assets/Final_Boss_assets/final_boss_v2.png" id="9_c6i3y"]
@@ -47,7 +48,7 @@ outline_color = Color(1, 0.7607843, 0.05490196, 1)
 [node name="Node2D" type="Node2D" unique_id=223592358]
 script = ExtResource("1_fos0i")
 player_saved_stats = ExtResource("3_lgr22")
-enemy_roster = Array[ExtResource("2_sc1dx")]([ExtResource("2_3dxm6"), ExtResource("5_kjvhd"), ExtResource("6_5tuhn")])
+enemy_roster = Array[ExtResource("2_sc1dx")]([ExtResource("6_5tuhn"), ExtResource("7_3b0ty"), ExtResource("2_3dxm6"), ExtResource("5_kjvhd")])
 
 [node name="Floor" type="Sprite2D" parent="." unique_id=779097629]
 position = Vector2(576, 602.5)
@@ -184,6 +185,42 @@ offset_top = 371.0
 offset_right = 686.0
 offset_bottom = 421.0
 text = "Retry"
+
+[node name="WinScreen" type="CanvasLayer" parent="." unique_id=28433912]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="WinScreen" unique_id=373192729]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 0, 0.5882353)
+
+[node name="Title" type="Label" parent="WinScreen" unique_id=1181880983]
+offset_left = 166.00005
+offset_top = 154.00002
+offset_right = 332.00006
+offset_bottom = 177.00002
+scale = Vector2(5, 5)
+text = "Esti prea bun!"
+horizontal_alignment = 1
+
+[node name="WinMessage" type="Label" parent="WinScreen" unique_id=409724802]
+offset_left = 142.0
+offset_top = 270.0
+offset_right = 495.59998
+offset_bottom = 293.0
+scale = Vector2(2.5, 2.5)
+text = "Viata de somer continua!"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="WinScreen" unique_id=138071361]
+offset_left = 486.0
+offset_top = 371.0
+offset_right = 686.0
+offset_bottom = 421.0
+text = "Jaca din nou"
 
 [node name="EnemyCombatText" type="Label" parent="." unique_id=702521151]
 anchors_preset = 1
@@ -333,7 +370,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_right = 16.0
+offset_left = -2.0
+offset_right = 18.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -381,3 +419,4 @@ stretch_mode = 5
 [connection signal="pressed" from="Move1Button" to="." method="_on_move_1_button_pressed"]
 [connection signal="pressed" from="InventoryButton" to="." method="_on_inventory_button_pressed"]
 [connection signal="pressed" from="GameOverScreen/RetryButton" to="." method="_on_retry_button_pressed"]
+[connection signal="pressed" from="WinScreen/RetryButton" to="." method="_on_retry_button_pressed"]
