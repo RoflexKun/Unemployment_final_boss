@@ -76,8 +76,8 @@ wait_time = 3.0
 autostart = true
 
 [node name="EnemyVisual" type="Sprite2D" parent="." unique_id=1193545193]
-position = Vector2(387.015, 422.25653)
-scale = Vector2(0.2683537, 0.48936644)
+position = Vector2(433.99997, 386.00003)
+scale = Vector2(1.4595704, 1.3478025)
 
 [node name="Player" type="Sprite2D" parent="." unique_id=305229066]
 material = SubResource("ShaderMaterial_c2ibq")
@@ -143,7 +143,7 @@ scale = Vector2(1.5109375, 0.661111)
 texture = ExtResource("8_03owx")
 
 [node name="HealthBar" type="Sprite2D" parent="EnemyHealthUI" unique_id=1944955884]
-position = Vector2(292, 267)
+position = Vector2(290.00003, 179)
 scale = Vector2(0.40589574, 0.2549012)
 texture = ExtResource("9_wkp8b")
 centered = false
@@ -203,7 +203,7 @@ offset_top = 154.00002
 offset_right = 332.00006
 offset_bottom = 177.00002
 scale = Vector2(5, 5)
-text = "Esti prea bun!"
+text = "GG!"
 horizontal_alignment = 1
 
 [node name="WinMessage" type="Label" parent="WinScreen" unique_id=409724802]
@@ -212,7 +212,7 @@ offset_top = 270.0
 offset_right = 495.59998
 offset_bottom = 293.0
 scale = Vector2(2.5, 2.5)
-text = "Viata de somer continua!"
+text = "Unemployment life continues"
 horizontal_alignment = 1
 
 [node name="RetryButton" type="Button" parent="WinScreen" unique_id=138071361]
@@ -220,16 +220,17 @@ offset_left = 486.0
 offset_top = 371.0
 offset_right = 686.0
 offset_bottom = 421.0
-text = "Jaca din nou"
+text = "Play again"
 
 [node name="EnemyCombatText" type="Label" parent="." unique_id=702521151]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 301.0
-offset_top = 139.0
-offset_right = 464.0
-offset_bottom = 254.0
+offset_left = 298.0
+offset_top = 55.0
+offset_right = 461.0
+offset_bottom = 170.0
+grow_horizontal = 0
 theme_override_font_sizes/font_size = 32
 label_settings = SubResource("LabelSettings_5tuhn")
 horizontal_alignment = 1

@@ -39,6 +39,9 @@ var damage_reduction: int = 0
 
 #TODO when assets are done I need to modify this
 var tex_empty_ability = preload("res://Drawing_assets/buttons/empty_inventory.png")
+var ability_two = preload("res://Drawing_assets/buttons/ability_doi.png")
+var ability_three = preload("res://Drawing_assets/buttons/ability_trei.png")
+var ability_four = preload("res://Drawing_assets/buttons/ability_quatro.png")
 
 
 @onready var inventory_ui = $InventoryUI
@@ -124,17 +127,25 @@ func spawn_next_enemy():
 	enemy_visual.texture = active_enemy_stats.character_texture
 	
 	enemy_visual.scale = Vector2(1, 1)
+	print("Numele caracterului si de ce poate are probleme", active_enemy_stats.character_name)
 	
 	match active_enemy_stats.character_name:
 		"Dog":
+			print("Intra la dog")
 			enemy_visual.scale = Vector2(2.5, 2.5)
 			enemy_visual.position = Vector2(400, 520)
+		"Sister":
+			print("Intra la Sister")
+			enemy_visual.scale = Vector2(1.745, 1.944)
+			enemy_visual.position = Vector2(410.0, 344.0)	
 		"Mom":
-			enemy_visual.scale = Vector2(1, 1)
-			enemy_visual.position = Vector2(450, 400)		
+			print("Intra la mom")
+			enemy_visual.scale = Vector2(1.607, 1.634)
+			enemy_visual.position = Vector2(387.0, 370.0)	
 		"Dad":
-			enemy_visual.scale = Vector2(1.1, 1.1)
-			enemy_visual.position = Vector2(450, 400)
+			print("Intra la dad")
+			enemy_visual.scale = Vector2(1.46, 1.348)
+			enemy_visual.position = Vector2(434.0, 386.0)
 	
 	enemy_health_bar.update_health(active_enemy_stats.current_health, active_enemy_stats.max_health)
 	
@@ -180,7 +191,12 @@ func take_player_turn(move_index: int):
 			
 			var slot_button = abilities_slots[new_slot_index]
 			
-			slot_button.texture_normal = tex_empty_ability
+			if new_slot_index == 1:
+				slot_button.texture_normal = ability_two
+			elif new_slot_index == 2:
+				slot_button.texture_normal = ability_three
+			elif new_slot_index == 3:
+				slot_button.texture_normal = ability_four
 			
 			slot_button.ignore_texture_size = true
 			slot_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
@@ -297,10 +313,11 @@ func perform_attack(attacker: CharacterStats, defender: CharacterStats, move_ind
 	
 	defender.current_health -= total_damage
 	
-	if defender.character_name == active_player_stats.character_name:
-		apply_jitter(player_visual)
-	else:
-		apply_jitter(enemy_visual)
+	if defender.current_health > 0:
+		if defender.character_name == active_player_stats.character_name:
+			apply_jitter(player_visual)
+		else:
+			apply_jitter(enemy_visual)
 		
 	var combat_message = chosen_move.move_name + "!\n-" + str(total_damage) + " HP"
 	

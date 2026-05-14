@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://bnrdi5uot0jgo"]
 
 [ext_resource type="Script" uid="uid://dgtc6hinqyd12" path="res://Scripts/Move.gd" id="1_exg86"]
-[ext_resource type="Texture2D" uid="uid://brit2yekbx3xx" path="res://Drawing_assets/Final_Boss_assets/DAD.png" id="1_ogwt7"]
+[ext_resource type="Texture2D" uid="uid://1gyagwvyvlc1" path="res://Drawing_assets/Final_Boss_assets/DAD.png" id="1_ogwt7"]
 [ext_resource type="Script" uid="uid://ds5wu3jdcjejx" path="res://Scripts/character_stats.gd" id="2_ogwt7"]
 
 [sub_resource type="Resource" id="Resource_exg86"]

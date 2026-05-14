@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://c6s8iubsgfl3h"]
 
-[ext_resource type="Texture2D" uid="uid://dc0c0h2irgvut" path="res://Drawing_assets/Final_Boss_assets/MOM.png" id="1_ncm4k"]
+[ext_resource type="Texture2D" uid="uid://bu73yslwye4q7" path="res://Drawing_assets/Final_Boss_assets/MOM.png" id="1_ncm4k"]
 [ext_resource type="Script" uid="uid://dgtc6hinqyd12" path="res://Scripts/Move.gd" id="1_uldro"]
 [ext_resource type="Script" uid="uid://ds5wu3jdcjejx" path="res://Scripts/character_stats.gd" id="2_ncm4k"]
 

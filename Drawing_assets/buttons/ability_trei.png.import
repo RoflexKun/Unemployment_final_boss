@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1gyagwvyvlc1"
-path="res://.godot/imported/DAD.png-a4cd767debac8b40d7bd287df12df72f.ctex"
+uid="uid://c2da1om8sflfp"
+path="res://.godot/imported/ability_trei.png-00b8f6cda2a049cdc93ad87a73b91f4a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Drawing_assets/Final_Boss_assets/DAD.png"
-dest_files=["res://.godot/imported/DAD.png-a4cd767debac8b40d7bd287df12df72f.ctex"]
+source_file="res://Drawing_assets/buttons/ability_trei.png"
+dest_files=["res://.godot/imported/ability_trei.png-00b8f6cda2a049cdc93ad87a73b91f4a.ctex"]
 
 [params]
 
